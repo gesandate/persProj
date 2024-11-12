@@ -1,5 +1,9 @@
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Scanner;
 
 public class app {
@@ -67,5 +71,24 @@ public class app {
             }
         }
         return num && upp && low;
+    }
+
+    public static int createAccount(String username) {
+        if (fileExists(username)) { // if account already exists
+            return 0;
+        }
+        if (!isAlphanumeric(username)) { // account doesn't follow rules >:(
+            return 1;
+        }
+
+        File account = new File (username);
+
+        try (PrintWriter writer = new PrintWriter(new BufferedWriter(new FileWriter(account, true)))) {
+            writer.println("Hell yeah dude, account successfully created!");
+        }catch (IOException e) {
+            System.out.println("You broke something dude!");
+        }
+        System.out.println("Account created!");
+        return 2;
     }
 }
